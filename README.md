@@ -1,6 +1,6 @@
 # Go-blockchain
 
-Learning Building a Blockchain in Golang 
+Learning to build a Blockchain in Golang 
 
 Youtube https://www.youtube.com/playlist?list=PLJbE2Yu2zumCe9cO3SIyragJ8pLmVv0z9
 
