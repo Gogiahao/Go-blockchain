@@ -29,7 +29,7 @@ func CreatBlock(data string, PrevHash []byte) *Block {
 }
 
 func (chain *BlockChain) AddBlock(data string) {
-	prevBlock := chain.Blocks[len(chain.Blocks) - 1]
+	prevBlock := chain.Blocks[len(chain.Blocks)-1]
 	newBlock := CreatBlock(data, prevBlock.Hash)
 	chain.Blocks = append(chain.Blocks, newBlock)
 }
@@ -38,18 +38,18 @@ func Genesis() *Block {
 	return CreatBlock("Genesis", []byte{})
 }
 
-func InitBlockChain() *BlockChain{
+func InitBlockChain() *BlockChain {
 	return &BlockChain{[]*Block{Genesis()}}
 }
 
 func main() {
 	chain := InitBlockChain()
 
-	chain.AddBlock("第一个区块")
 	chain.AddBlock("第二个区块")
 	chain.AddBlock("第三个区块")
+	chain.AddBlock("第四个区块")
 
-	for _, block := range chain.Blocks{
+	for _, block := range chain.Blocks {
 		fmt.Printf("PrevHash: %x\n", block.PrevHash)
 		fmt.Printf("Data: %s\n", block.Data)
 		fmt.Printf("Hash: %x\n", block.Hash)
