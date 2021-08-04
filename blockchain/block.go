@@ -13,8 +13,10 @@ type Block struct {
 	Hash     []byte
 	Data     []byte
 	PrevHash []byte
+	Nonce    int
 }
 
+//在实现POW之后弃用
 func (b *Block) DeriveHash() {
 	info := bytes.Join([][]byte{b.Data, b.PrevHash}, []byte{})
 	hash := sha256.Sum256(info)
@@ -22,8 +24,12 @@ func (b *Block) DeriveHash() {
 }
 
 func CreatBlock(data string, PrevHash []byte) *Block {
-	block := &Block{[]byte{}, []byte(data), PrevHash}
-	block.DeriveHash()
+	block := &Block{[]byte{}, []byte(data), PrevHash, 0}
+	pow := NewProof(block)
+	nonce, hash := pow.Run()
+
+	block.Nonce = nonce
+	block.Hash = hash[:]
 	return block
 }
 
