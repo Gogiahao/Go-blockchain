@@ -3,11 +3,9 @@ package blockchain
 import (
 	"bytes"
 	"crypto/sha256"
+	"encoding/gob"
+	"log"
 )
-
-type BlockChain struct {
-	Blocks []*Block
-}
 
 type Block struct {
 	Hash     []byte
@@ -33,16 +31,39 @@ func CreatBlock(data string, PrevHash []byte) *Block {
 	return block
 }
 
-func (chain *BlockChain) AddBlock(data string) {
-	prevBlock := chain.Blocks[len(chain.Blocks)-1]
-	newBlock := CreatBlock(data, prevBlock.Hash)
-	chain.Blocks = append(chain.Blocks, newBlock)
-}
-
 func Genesis() *Block {
 	return CreatBlock("Genesis", []byte{})
 }
 
-func InitBlockChain() *BlockChain {
-	return &BlockChain{[]*Block{Genesis()}}
+//对区块进行序列化，返回字节数组
+func (b *Block) Serialize() []byte {
+	//创建编码器对象
+	var result bytes.Buffer
+	encoder := gob.NewEncoder(&result)
+
+	//序列化区块
+	err := encoder.Encode(b)
+
+	Handle(err)
+
+	return result.Bytes()
+}
+
+//对序列化后的区块进行反序列化
+func Deserialize(data []byte) *Block {
+	var block Block
+
+	decoder := gob.NewDecoder(bytes.NewReader(data))
+	err := decoder.Decode(&block)
+
+	Handle(err)
+
+	return &block
+}
+
+//err处理程序
+func Handle(err error) {
+	if err != nil {
+		log.Panic(err)
+	}
 }

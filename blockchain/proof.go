@@ -19,7 +19,7 @@ import (
 //要求：
 //哈希的前几个字节必须为0
 
-const Difficulty = 20
+const Difficulty = 12
 
 type ProofOfWork struct {
 	Block  *Block
